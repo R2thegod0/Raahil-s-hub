@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>R.Hussain | Horizon Studios</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* --- 1. VARIABLES & RESET --- */
+        :root {
+            --bg-color: #050505;
+            --text-main: #ffffff;
+            --text-muted: #888888;
+            --glass: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --accent-green: #4ade80;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; scroll-behavior: smooth; }
+        
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--bg-color); }
+        ::-webkit-scrollbar-thumb { background: #333; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #555; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* --- 2. PRELOADER --- */
+        #preloader {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: #000; z-index: 9999;
+            display: flex; justify-content: center; align-items: center;
+            flex-direction: column;
+            transition: opacity 0.5s ease;
+        }
+        .loader-bar {
+            width: 200px; height: 2px; background: #333; margin-top: 20px;
+            position: relative; overflow: hidden;
+        }
+        .loader-progress {
+            position: absolute; top: 0; left: 0; height: 100%; width: 0%;
+            background: #fff; animation: load 1.5s ease-in-out forwards;
+        }
+        @keyframes load { 0% { width: 0; } 100% { width: 100%; } }
+
+        /* --- 3. BACKGROUND (STARS) --- */
+        .stars-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; }
+        
+        .star-layer {
+            position: absolute; top: -10%; left: -10%; right: -10%; bottom: -10%;
+            background-image: 
+                radial-gradient(2px 2px at 20px 30px, #fff, rgba(0,0,0,0)), 
+                radial-gradient(2px 2px at 40px 70px, #fff, rgba(0,0,0,0)), 
+                radial-gradient(1px 1px at 90px 40px, #fff, rgba(0,0,0,0));
+            background-repeat: repeat; background-size: 200px 200px; opacity: 0.3;
+        }
+        
+        .shooting-star {
+            position: absolute; top: 50%; left: 50%; width: 4px; height: 4px;
+            background: #fff; border-radius: 50%;
+            box-shadow: 0 0 0 4px rgba(255,255,255,0.1), 0 0 0 8px rgba(255,255,255,0.1), 0 0 20px rgba(255,255,255,1);
+            animation: shoot 3s linear infinite; opacity: 0;
+        }
+        @keyframes shoot {
+            0% { transform: rotate(315deg) translateX(0); opacity: 1; }
+            70% { opacity: 1; }
+            100% { transform: rotate(315deg) translateX(-1000px); opacity: 0; }
+        }
+
+        /* --- 4. NAVIGATION --- */
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
+        
+        nav {
+            padding: 20px 0; display: flex; justify-content: space-between; align-items: center;
+            position: sticky; top: 0; z-index: 100;
+            background: rgba(5,5,5,0.8); backdrop-filter: blur(10px);
+        }
+        
+        /* Glitch Logo */
+        .logo { font-weight: 700; font-size: 1.2rem; letter-spacing: -1px; position: relative; color: #fff; text-decoration: none; }
+        .logo:hover { animation: glitch-anim 0.3s infinite; }
+        .logo:hover::before { content: "R.HUSSAIN"; position: absolute; left: 2px; text-shadow: -1px 0 #ff00c1; clip: rect(44px, 450px, 56px, 0); animation: glitch-anim-2 5s infinite linear alternate-reverse; }
+        .logo:hover::after { content: "R.HUSSAIN"; position: absolute; left: -2px; text-shadow: -1px 0 #00fff9; clip: rect(44px, 450px, 56px, 0); animation: glitch-anim-2 5s infinite linear alternate-reverse; }
+        @keyframes glitch-anim { 0% { transform: translate(0) } 20% { transform: translate(-2px, 2px) } 40% { transform: translate(-2px, -2px) } 60% { transform: translate(2px, 2px) } 80% { transform: translate(2px, -2px) } 100% { transform: translate(0) } }
+
+        .nav-links { display: flex; gap: 30px; }
+        .nav-links a { color: var(--text-muted); font-size: 0.9rem; position: relative; text-decoration: none; }
+        .nav-links a:hover { color: #fff; }
+        .nav-links a::after { content: ''; position: absolute; width: 0; height: 1px; bottom: -5px; left: 0; background: #fff; transition: 0.3s; }
+        .nav-links a:hover::after { width: 100%; }
+
+        .menu-btn { display: none; font-size: 1.5rem; cursor: pointer; color: #fff; }
+
+        /* --- 5. SECTIONS --- */
+        .hero { height: 90vh; display: flex; flex-direction: column; justify-content: center; border-bottom: 1px solid var(--glass-border); }
+        .hero h1 { font-size: 5rem; line-height: 1; margin-bottom: 20px; letter-spacing: -2px; }
+        .typing-container { 
+            font-family: 'Space Mono', monospace; font-size: 0.9rem; 
+            padding: 8px 16px; border-radius: 50px; 
+            background: var(--glass); border: 1px solid var(--glass-border); 
+            display: inline-block; margin-bottom: 40px; 
+        }
+        
+        section { padding: 100px 0; border-bottom: 1px solid var(--glass-border); }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; }
+
+        /* Cards */
+        .card {
+            background: var(--glass); border: 1px solid var(--glass-border); padding: 40px; border-radius: 12px;
+            transform-style: preserve-3d; box-shadow: 0 4px 30px rgba(0,0,0,0.1); backdrop-filter: blur(5px);
+        }
+        .card-content { transform: translateZ(20px); }
+        .status-badge { 
+            position: absolute; top: 20px; right: 20px; font-size: 0.7rem; 
+            padding: 4px 10px; border-radius: 20px; 
+            background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); 
+            transform: translateZ(30px); 
+        }
+
+        /* Team Styles */
+        .team-list { display: flex; flex-direction: column; gap: 0; }
+        .team-member { 
+            display: flex; align-items: center; justify-content: space-between; 
+            padding: 15px 0; border-bottom: 1px solid var(--glass-border); transition: 0.3s; 
+        }
+        .team-member:hover { padding-left: 10px; background: rgba(255,255,255,0.02); }
+        .member-info { display: flex; align-items: center; gap: 15px; }
+        .member-avatar { 
+            width: 40px; height: 40px; border-radius: 50%; 
+            background: #222; object-fit: cover; 
+            border: 2px solid #fff; opacity: 0; transform: scale(0.5); transition: 0.3s; 
+        }
+        .team-member:hover .member-avatar { opacity: 1; transform: scale(1); }
+        .mono { font-family: 'Space Mono', monospace; font-size: 0.9rem; color: var(--text-muted); }
+
+        /* Contact & Utilities */
+        .copy-link { cursor: pointer; transition: 0.3s; }
+        .copy-link:hover { color: #fff; }
+        .copy-link:active { transform: scale(0.98); }
+        
+        #toast {
+            visibility: hidden; min-width: 250px; background-color: #333; color: #fff; text-align: center; border-radius: 4px; padding: 16px;
+            position: fixed; z-index: 1000; left: 50%; bottom: 30px; transform: translateX(-50%); font-family: 'Space Mono', monospace; font-size: 0.9rem;
+        }
+        #toast.show { visibility: visible; animation: fadein 0.5s, fadeout 0.5s 2.5s; }
+        @keyframes fadein { from {bottom: 0; opacity: 0;} to {bottom: 30px; opacity: 1;} }
+        @keyframes fadeout { from {bottom: 30px; opacity: 1;} to {bottom: 0; opacity: 0;} }
+
+        #scrollTop { 
+            position: fixed; bottom: 30px; right: 30px; width: 50px; height: 50px; 
+            background: #fff; color: #000; border-radius: 50%; 
+            display: flex; justify-content: center; align-items: center; 
+            cursor: pointer; opacity: 0; visibility: hidden; transition: 0.4s; z-index: 999; 
+        }
+        #scrollTop.active { opacity: 1; visibility: visible; }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 3rem; }
+            .menu-btn { display: block; }
+            .nav-links {
+                position: fixed; top: 70px; right: -100%; width: 100%; height: 100vh;
+                background: #000; flex-direction: column; align-items: center; justify-content: center;
+                transition: 0.3s; border-left: 1px solid var(--glass-border);
+            }
+            .nav-links.mobile-active { right: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="preloader">
+        <h2 style="font-family: 'Space Mono'; letter-spacing: 2px; color: white;">INITIALIZING HORIZON STUDIOS</h2>
+        <div class="loader-bar"><div class="loader-progress"></div></div>
+    </div>
+
+    <div class="stars-container">
+        <div class="star-layer" id="layer1"></div>
+        <div class="star-layer" id="layer2"></div>
+        <div class="shooting-star"></div>
+    </div>
+
+    <div class="container">
+        <nav data-aos="fade-down">
+            <a href="#" class="logo">R.HUSSAIN <span>/ R2THEGOD0</span></a>
+            <div class="menu-btn" onclick="toggleMenu()"><i class="fas fa-bars"></i></div>
+            <ul class="nav-links">
+                <li><a href="#work" onclick="toggleMenu()">Work</a></li>
+                <li><a href="#team" onclick="toggleMenu()">Team</a></li>
+                <li><a href="#about" onclick="toggleMenu()">About</a></li>
+                <li><a href="#contact" onclick="toggleMenu()">Contact</a></li>
+            </ul>
+        </nav>
+
+        <header class="hero">
+            <div data-aos="fade-right">
+                <div class="typing-container">> <span class="typing-text"></span><span style="animation:blink 1s infinite">_</span></div>
+            </div>
+            <h1 data-aos="fade-up" data-aos-delay="200">LEAD DESIGNER.</h1>
+            <div style="font-size: 1.2rem; color: var(--text-muted);" data-aos="fade-up" data-aos-delay="400">HORIZON STUDIOS</div>
+        </header>
+
+        <section id="work">
+            <div style="margin-bottom: 60px;" data-aos="fade-up">
+                <h2>Selected Work</h2>
+                <p style="color:var(--text-muted)">Latest deployments.</p>
+            </div>
+            <div class="grid">
+                <div class="card" data-tilt data-tilt-max="10" data-aos="fade-up">
+                    <span class="status-badge" style="color:var(--accent-green); border-color:var(--accent-green)">Online</span>
+                    <div class="card-content">
+                        <h3>Hyper Discord Bot</h3>
+                        <p style="color:var(--text-muted); margin: 15px 0;">Powerful moderation and utility tools for Discord.</p>
+                        <a href="https://hyperbot-website.netlify.app/#" target="_blank" style="border-bottom: 1px solid #fff; font-size: 0.8rem; font-family: 'Space Mono'; text-decoration:none; color:white;">VISIT WEBSITE <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+                <div class="card" data-tilt data-tilt-max="10" data-aos="fade-up" data-aos-delay="100">
+                    <span class="status-badge">Dev</span>
+                    <div class="card-content">
+                        <h3>Hyper Notes</h3>
+                        <p style="color:var(--text-muted); margin: 15px 0;">The best free notes app. Engineered for speed.</p>
+                        <span style="color: var(--text-muted); font-size: 0.8rem; font-family: 'Space Mono'">COMING SOON</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="team">
+            <div style="margin-bottom: 60px;" data-aos="fade-up">
+                <h2>Horizon Studios</h2>
+                <p style="color:var(--text-muted)">The crew behind the code.</p>
+            </div>
+            <div class="team-list">
+                
+                <div class="team-member" data-aos="fade-up">
+                    <div class="member-info">
+                        <img src="ron.jpg" class="member-avatar" alt="Ron">
+                        <span>Ron Dalahoya</span>
+                    </div>
+                    <span class="mono">Lead Developer</span>
+                </div>
+
+                <div class="team-member" data-aos="fade-up">
+                    <div class="member-info">
+                        <img src="rhussain.png" class="member-avatar" alt="R. Hussain">
+                        <span>R. Hussain</span>
+                    </div>
+                    <span class="mono">Lead Designer</span>
+                </div>
+
+                <div class="team-member" data-aos="fade-up">
+                    <div class="member-info">
+                        <img src="rizen.jpg" class="member-avatar" alt="Rizen">
+                        <span>Rizen</span>
+                    </div>
+                    <span class="mono">Developer</span>
+                </div>
+
+                <div class="team-member" data-aos="fade-up">
+                    <div class="member-info">
+                        <img src="infinix.jpg" class="member-avatar" alt="Infinix">
+                        <span>Infinix</span>
+                    </div>
+                    <span class="mono">Developer</span>
+                </div>
+
+                <div class="team-member" data-aos="fade-up">
+                    <div class="member-info">
+                        <img src="sarah.jpg" class="member-avatar" alt="Sarah">
+                        <span>Sarah Dalahoya</span>
+                    </div>
+                    <span class="mono">Designer</span>
+                </div>
+
+                <div class="team-member" data-aos="fade-up">
+                    <div class="member-info">
+                        <img src="alsa.jpg" class="member-avatar" alt="Alsa">
+                        <span>Alsa</span>
+                    </div>
+                    <span class="mono">Designer</span>
+                </div>
+
+            </div>
+        </section>
+
+        <section id="about">
+            <h2 data-aos="fade-up">The Developer</h2>
+            <div style="max-width: 600px;" data-aos="fade-up">
+                <p style="font-size: 1.2rem; margin: 20px 0;">Student. Designer. Programmer.</p>
+                <div style="display: flex; flex-wrap: wrap; gap: 10px;">
+                    <span style="border:1px solid #333; padding:5px 15px; border-radius:50px; font-size:0.8rem; color: #888;">Python</span>
+                    <span style="border:1px solid #333; padding:5px 15px; border-radius:50px; font-size:0.8rem; color: #888;">HTML/CSS</span>
+                    <span style="border:1px solid #333; padding:5px 15px; border-radius:50px; font-size:0.8rem; color: #888;">UI/UX</span>
+                    <span style="border:1px solid #333; padding:5px 15px; border-radius:50px; font-size:0.8rem; color: #888;">Coffee</span>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact" style="border: none;">
+            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:50px;" data-aos="fade-up">
+                <div>
+                    <h2>Get in Touch</h2>
+                    <div style="margin-top: 30px;">
+                        <span class="mono" style="font-size:0.8rem; color:var(--text-muted)">EMAIL (CLICK TO COPY)</span>
+                        <div class="copy-link" onclick="copyText('mr.r2thegod0@gmail.com')" style="font-size:1.1rem; margin-bottom:20px; margin-top: 10px;">mr.r2thegod0@gmail.com</div>
+                        <div class="copy-link" onclick="copyText('raahilhussain3@gmail.com')" style="font-size:1.1rem;">raahilhussain3@gmail.com</div>
+                    </div>
+                </div>
+                <div style="display:flex; flex-direction:column; gap:15px;">
+                    <a href="https://www.instagram.com/r2thegod0_op?igsh=OWFmZGY2eG9ndWhn" target="_blank" style="text-decoration:none; color:var(--text-muted);"><i class="fab fa-instagram"></i> Instagram (Public)</a>
+                    <a href="https://www.instagram.com/its.rh3?igsh=MWpkOGU0MHU2azBwNw==" target="_blank" style="text-decoration:none; color:var(--text-muted);"><i class="fab fa-instagram"></i> Instagram (Private)</a>
+                    <a href="https://x.com/R2thegod0_op" target="_blank" style="text-decoration:none; color:var(--text-muted);"><i class="fab fa-twitter"></i> X (Twitter)</a>
+                    <div class="copy-link" onclick="copyText('r2thegod0')" style="color:var(--text-muted);"><i class="fab fa-discord"></i> Discord: r2thegod0</div>
+                </div>
+            </div>
+        </section>
+
+        <footer style="padding: 50px 0; color: var(--text-muted); font-size: 0.8rem; text-align: center;">
+            <p>&copy; 2026 Horizon Studios.</p>
+        </footer>
+    </div>
+
+    <div id="scrollTop" onclick="scrollToTop()"><i class="fas fa-rocket"></i></div>
+    <div id="toast">Copied to clipboard!</div>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.7.0/vanilla-tilt.min.js"></script>
+    
+    <script>
+        // 1. PRELOADER
+        window.onload = function() {
+            setTimeout(() => {
+                document.getElementById('preloader').style.opacity = '0';
+                setTimeout(() => { document.getElementById('preloader').style.display = 'none'; }, 500);
+            }, 1500);
+        }
+
+        // 2. INITIALIZE AOS
+        AOS.init({ duration: 1000, once: true });
+
+        // 3. MOBILE MENU
+        function toggleMenu() {
+            document.querySelector('.nav-links').classList.toggle('mobile-active');
+        }
+
+        // 4. COPY TO CLIPBOARD
+        function copyText(text) {
+            navigator.clipboard.writeText(text);
+            const toast = document.getElementById("toast");
+            toast.className = "show";
+            setTimeout(function(){ toast.className = toast.className.replace("show", ""); }, 3000);
+        }
+
+        // 5. MOUSE PARALLAX
+        document.addEventListener('mousemove', (e) => {
+            const x = (window.innerWidth - e.pageX * 2) / 100;
+            const y = (window.innerHeight - e.pageY * 2) / 100;
+            document.getElementById('layer1').style.transform = `translate(${x*2}px, ${y*2}px)`;
+            document.getElementById('layer2').style.transform = `translate(${x*5}px, ${y*5}px)`;
+        });
+
+        // 6. TYPING EFFECT
+        const textElement = document.querySelector('.typing-text');
+        const words = ["Discord Verified Bot Developer", "Web Designer", "Student"];
+        let wordIndex = 0, charIndex = 0, isDeleting = false;
+        function type() {
+            const currentWord = words[wordIndex];
+            if (isDeleting) { textElement.textContent = currentWord.substring(0, charIndex - 1); charIndex--; }
+            else { textElement.textContent = currentWord.substring(0, charIndex + 1); charIndex++; }
+            if (!isDeleting && charIndex === currentWord.length) { isDeleting = true; setTimeout(type, 2000); }
+            else if (isDeleting && charIndex === 0) { isDeleting = false; wordIndex = (wordIndex + 1) % words.length; setTimeout(type, 500); }
+            else { setTimeout(type, isDeleting ? 50 : 100); }
+        }
+        document.addEventListener('DOMContentLoaded', type);
+
+        // 7. SCROLL TOP
+        window.addEventListener('scroll', function(){
+            const rocket = document.getElementById('scrollTop');
+            rocket.classList.toggle('active', window.scrollY > 300);
+        });
+        function scrollToTop(){ window.scrollTo({ top: 0, behavior: 'smooth' }); }
+    </script>
+</body>
+</html>
