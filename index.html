@@ -3,8 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>R.Hussain | Personal & Work Hub</title>
     
+    <title>Raahil's Hub</title>
+    <meta name="description" content="Lead Designer & Developer at Horizon Studios.">
+    <meta name="theme-color" content="#050505">
+
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://your-website-link.netlify.app/">
+    <meta property="og:title" content="Raahil's Hub">
+    <meta property="og:description" content="Welcome to my personal portfolio.">
+    <meta property="og:image" content="https://placehold.co/1200x630/050505/ffffff.png?text=Raahil's+Hub&font=roboto">
+
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://your-website-link.netlify.app/">
+    <meta property="twitter:title" content="Raahil's Hub">
+    <meta property="twitter:description" content="Welcome to my personal portfolio.">
+    <meta property="twitter:image" content="https://placehold.co/1200x630/050505/ffffff.png?text=Raahil's+Hub&font=roboto">
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -28,7 +43,7 @@
             color: var(--text-main);
             overflow-x: hidden;
             line-height: 1.6;
-            height: 100vh; /* Fixed height for page swapping feel */
+            height: 100vh; /* Fixed height for SPA feel */
             display: flex;
             flex-direction: column;
         }
@@ -54,24 +69,22 @@
         .nav-links li { cursor: pointer; color: var(--text-muted); font-size: 0.9rem; transition: 0.3s; position: relative; }
         .nav-links li:hover, .nav-links li.active-link { color: #fff; }
         
-        /* Underline effect for active link */
+        /* Underline effect */
         .nav-links li::after { content: ''; position: absolute; width: 0; height: 1px; bottom: -5px; left: 0; background: #fff; transition: 0.3s; }
         .nav-links li.active-link::after { width: 100%; }
 
         .menu-btn { display: none; font-size: 1.5rem; cursor: pointer; color: #fff; }
 
-        /* --- 4. PAGE SECTIONS (THE MAGIC PART) --- */
-        /* All pages are hidden by default */
+        /* --- 4. PAGE SECTIONS (SPA LOGIC) --- */
         .page-section {
             display: none;
-            padding: 120px 20px 50px 20px; /* Top padding clears the navbar */
+            padding: 120px 20px 50px 20px;
             max-width: 1100px;
             margin: 0 auto;
             min-height: 100vh;
             animation: fadeIn 0.5s ease;
         }
 
-        /* Only the active page is shown */
         .page-section.active { display: block; }
 
         @keyframes fadeIn {
@@ -199,27 +212,27 @@
 
         <div class="team-list">
             <div class="team-member">
-                <div class="member-info"><img src="ron.jpg" class="member-avatar"><span>Ron Dalahoya</span></div>
+                <div class="member-info"><img src="ron.jpg" class="member-avatar" alt="Ron"><span>Ron Dalahoya</span></div>
                 <span class="mono">Lead Developer</span>
             </div>
             <div class="team-member">
-                <div class="member-info"><img src="rhussain.png" class="member-avatar"><span>R. Hussain</span></div>
+                <div class="member-info"><img src="rhussain.png" class="member-avatar" alt="RHussain"><span>R. Hussain</span></div>
                 <span class="mono">Lead Designer</span>
             </div>
             <div class="team-member">
-                <div class="member-info"><img src="rizen.jpg" class="member-avatar"><span>Rizen</span></div>
+                <div class="member-info"><img src="rizen.jpg" class="member-avatar" alt="Rizen"><span>Rizen</span></div>
                 <span class="mono">Developer</span>
             </div>
             <div class="team-member">
-                <div class="member-info"><img src="infinix.jpg" class="member-avatar"><span>Infinix</span></div>
+                <div class="member-info"><img src="infinix.jpg" class="member-avatar" alt="Infinix"><span>Infinix</span></div>
                 <span class="mono">Developer</span>
             </div>
             <div class="team-member">
-                <div class="member-info"><img src="sarah.jpg" class="member-avatar"><span>Sarah Dalahoya</span></div>
+                <div class="member-info"><img src="sarah.jpg" class="member-avatar" alt="Sarah"><span>Sarah Dalahoya</span></div>
                 <span class="mono">Designer</span>
             </div>
             <div class="team-member">
-                <div class="member-info"><img src="alsa.jpg" class="member-avatar"><span>Alsa</span></div>
+                <div class="member-info"><img src="alsa.jpg" class="member-avatar" alt="Alsa"><span>Alsa</span></div>
                 <span class="mono">Designer</span>
             </div>
         </div>
